@@ -107,7 +107,7 @@ const Register = (props) => {
   };
 
   useEffect(() => {
-    document.title = "Meal Me - Register";
+    document.title = "Cookpedia - Register";
   }, []);
 
   return (

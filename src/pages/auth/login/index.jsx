@@ -79,7 +79,7 @@ const Login = (props) => {
   };
 
   useEffect(() => {
-    document.title = "Meal Me - Login";
+    document.title = "Cookpedia - Login";
   }, []);
 
   return (

@@ -2,22 +2,22 @@ import React, { useState, useEffect } from "react";
 import { NavigationStateContext } from "../../App";
 import { useParams } from "react-router-dom";
 import { MdAccessTime } from "react-icons/md";
-// import { HiStar } from "react-icons/hi";
+
 import SideNavbar from "../../components/navigation/sideNav";
 import TopNavbar from "../../components/navigation/topNav";
 import Footer from "../../components/footer";
 import axios from "axios";
 
 import "./style.scss";
-import ModalRating from "./modalRating";
+
 import ListDetail from "./listDetail";
 
 const RecipeDetail = (props) => {
   const [showSideNavbar, setShowSideNavbar] = useState(false);
   const [recipeData, setRecipeData] = useState({});
-  // const [ratingText, setRatingText] = useState("");
+
   const [modalVisible, setModalVisible] = useState(false);
-  // const [userRating, setUserRating] = useState(0);
+
   const [isLoading, setIsLoading] = useState(true);
 
   const { id, name } = useParams();
@@ -53,105 +53,9 @@ const RecipeDetail = (props) => {
     }
   };
 
-  // const fetchRatingByUser = async () => {
-  //   const token = localStorage.getItem("access_token");
-  //   const config = {
-  //     headers: {
-  //       Authorization: `Bearer ${token}`,
-  //     },
-  //   };
-
-  //   try {
-  //     await axios
-  //       .get(props.apiUrl.getRatingByUser + id, config)
-  //       .then((res) => {
-  //         setUserRating(res.data.rating);
-  //         switch (res.data.rating) {
-  //           case 1:
-  //             setRatingText("I hate it 😠");
-  //             break;
-  //           case 2:
-  //             setRatingText("I don't like it 😒");
-  //             break;
-  //           case 3:
-  //             setRatingText("It is awesome 😄");
-  //             break;
-  //           case 4:
-  //             setRatingText("I like it 😎");
-  //             break;
-  //           case 5:
-  //             setRatingText("I love it 😍");
-  //             break;
-  //           default:
-  //             setRatingText("");
-  //         }
-  //       })
-  //       .catch((err) => {
-  //         if (
-  //           err.response.status === 401 &&
-  //           err.response.data.message === "Token expired."
-  //         ) {
-  //           localStorage.removeItem("access_token");
-  //           window.location.reload();
-  //         }
-
-  //         console.error(err);
-  //       });
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
-
-  // const createUpdateReting = async (rate) => {
-  //   const token = localStorage.getItem("access_token");
-  //   const config = {
-  //     headers: {
-  //       Authorization: `Bearer ${token}`,
-  //     },
-  //   };
-
-  //   const bodyParam = {
-  //     rating: rate,
-  //   };
-
-  //   try {
-  //     await axios
-  //       .post(props.apiUrl.createUpdateRating + id, bodyParam, config)
-  //       .then((res) => {
-  //         fetchRecipe(false);
-  //         // fetchRatingByUser();
-  //       })
-  //       .catch((err) => {
-  //         if (
-  //           err.response.status === 401 &&
-  //           err.response.data.message === "Token expired."
-  //         ) {
-  //           localStorage.removeItem("access_token");
-  //           window.location.reload();
-  //         }
-
-  //         alert("Failed to rate this recipe");
-  //         console.error(err);
-  //       });
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
-
-  // const handleRating = (e, text, value) => {
-  //   if (e.target.value === "on") {
-  //     setRatingText(text);
-  //     createUpdateReting(value);
-  //   }
-  // };
-
   useEffect(() => {
     window.scrollTo(0, 0);
     fetchRecipe(true);
-
-    // if (localStorage.getItem("access_token")) {
-    //   fetchRatingByUser();
-    // }
   }, []);
 
   useEffect(() => {
@@ -198,6 +102,24 @@ const RecipeDetail = (props) => {
                       </>
                     )}
                   </div>
+                  <div className="name-footer">
+                    {isLoading ? (
+                      <>
+                        <div className="skeleton-footer"></div>
+                        <div className="skeleton-footer"></div>
+                      </>
+                    ) : (
+                      <>
+                        <div className="time">
+                          <p className="time">
+                            {" "}
+                            <MdAccessTime />
+                            {timeFormater(recipeData.cooking_time)}
+                          </p>
+                        </div>
+                      </>
+                    )}
+                  </div>
                 </div>
 
                 <div className="card-body">
@@ -221,124 +143,6 @@ const RecipeDetail = (props) => {
                     </>
                   )}
                 </div>
-
-                {/* <div className="card-footer">
-                  <h2>Enjoying this recipe?</h2>
-
-                  <div className="rating-widget">
-                    <input
-                      type="radio"
-                      name="rate"
-                      id="rate-5"
-                      onChange={(e) => handleRating(e, "I love it 😍", 5)}
-                      disabled={!localStorage.getItem("access_token")}
-                      checked={userRating === 5}
-                    />
-                    {localStorage.getItem("access_token") ? (
-                      <label className="enable-star" htmlFor="rate-5">
-                        <HiStar size={28} />
-                      </label>
-                    ) : (
-                      <label
-                        className="disable-star"
-                        htmlFor="rate-5"
-                        onClick={() => setModalVisible(true)}
-                      >
-                        <HiStar size={28} />
-                      </label>
-                    )}
-
-                    <input
-                      type="radio"
-                      name="rate"
-                      id="rate-4"
-                      onChange={(e) => handleRating(e, "I like it 😎", 4)}
-                      disabled={!localStorage.getItem("access_token")}
-                      checked={userRating === 4}
-                    />
-                    {localStorage.getItem("access_token") ? (
-                      <label className="enable-star" htmlFor="rate-4">
-                        <HiStar size={28} />
-                      </label>
-                    ) : (
-                      <label
-                        className="disable-star"
-                        htmlFor="rate-4"
-                        onClick={() => setModalVisible(true)}
-                      >
-                        <HiStar size={28} />
-                      </label>
-                    )}
-
-                    <input
-                      type="radio"
-                      name="rate"
-                      id="rate-3"
-                      onChange={(e) => handleRating(e, "It is awesome 😄", 3)}
-                      disabled={!localStorage.getItem("access_token")}
-                      checked={userRating === 3}
-                    />
-                    {localStorage.getItem("access_token") ? (
-                      <label className="enable-star" htmlFor="rate-3">
-                        <HiStar size={28} />
-                      </label>
-                    ) : (
-                      <label
-                        className="disable-star"
-                        htmlFor="rate-3"
-                        onClick={() => setModalVisible(true)}
-                      >
-                        <HiStar size={28} />
-                      </label>
-                    )}
-
-                    <input
-                      type="radio"
-                      name="rate"
-                      id="rate-2"
-                      onChange={(e) => handleRating(e, "I don't like it 😒", 2)}
-                      disabled={!localStorage.getItem("access_token")}
-                      checked={userRating === 2}
-                    />
-                    {localStorage.getItem("access_token") ? (
-                      <label className="enable-star" htmlFor="rate-2">
-                        <HiStar size={28} />
-                      </label>
-                    ) : (
-                      <label
-                        className="disable-star"
-                        htmlFor="rate-2"
-                        onClick={() => setModalVisible(true)}
-                      >
-                        <HiStar size={28} />
-                      </label>
-                    )}
-
-                    <input
-                      type="radio"
-                      name="rate"
-                      id="rate-1"
-                      onChange={(e) => handleRating(e, "I hate it 😠", 1)}
-                      disabled={!localStorage.getItem("access_token")}
-                      checked={userRating === 1}
-                    />
-                    {localStorage.getItem("access_token") ? (
-                      <label className="enable-star" htmlFor="rate-1">
-                        <HiStar size={28} />
-                      </label>
-                    ) : (
-                      <label
-                        className="disable-star"
-                        htmlFor="rate-1"
-                        onClick={() => setModalVisible(true)}
-                      >
-                        <HiStar size={28} />
-                      </label>
-                    )}
-                  </div>
-
-                  <p className="rating-text">{ratingText}</p>
-                </div> */}
               </div>
             </div>
           </div>
@@ -346,8 +150,6 @@ const RecipeDetail = (props) => {
           <Footer />
         </div>
       </div>
-
-      <ModalRating visible={modalVisible} setVisible={setModalVisible} />
     </>
   );
 };

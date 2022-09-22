@@ -1,15 +1,6 @@
 {
   "name": "cookpedia",
   "version": "1.0.0",
-  "description": "Final Project Front End",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/potatotan666/Cookpedia.git"
-  },
-  "bugs": {
-    "url": "https://github.com/potatotan666/Cookpedia/issues"
-  },
-  "homepage": "https://github.com/potatotan666/Cookpedia#readme",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.4",
@@ -25,7 +16,6 @@
     "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.1",
     "sass": "^1.50.0",
-    "uploadcare-widget": "^3.19.0",
     "web-vitals": "^2.1.4",
     "yup": "^0.32.11"
   },
